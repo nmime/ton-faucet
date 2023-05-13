@@ -6,9 +6,9 @@ import { Context } from '../types/context'
 export default async function checkAddress(
   conversation: Conversation<Context>,
   ctx: Context,
-  error: Boolean = false
+  reason: null | string
 ) {
-  await ctx.reply(ctx.t(`provideAddress.${error ? 'error' : ''}`))
+  await ctx.reply(ctx.t(`provideAddress.${reason ?? ''}`))
 
   let {
     message: { text }
@@ -17,11 +17,12 @@ export default async function checkAddress(
   let address
   let valid = true
   try {
-    address = Address.parse(text)
+    address = Address.parse(text).toString()
   } catch (error) {
     console.error(error)
     valid = false
+    reason = 'invalid'
   }
 
-  return { address: address?.toString(), valid }
+  return { address: address?.toString(), valid, reason }
 }

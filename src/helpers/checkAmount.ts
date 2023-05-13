@@ -1,3 +1,4 @@
+import { InlineKeyboard } from 'grammy'
 import { type Conversation } from '@grammyjs/conversations'
 
 import { Context } from '../types/context'
@@ -8,16 +9,29 @@ export default async function checkAddress(
   ctx: Context,
   reason: null | string
 ) {
-  await ctx.reply(ctx.t(`provideAmount.${reason ?? ''}`))
+  await ctx.reply(ctx.t(`provideAmount.${reason ?? ''}`), {
+    reply_markup: new InlineKeyboard().text(
+      ctx.t('provideAmount.key'),
+      'provideAmount'
+    )
+  })
 
-  let {
-    message: { text }
-  } = await conversation.waitFor(':text', ctx => ctx.reply(ctx.t('onlyText')))
+  let update = await conversation.wait()
 
-  const amount = Number(text)
+  const amount = Number(
+    update.callbackQuery ? config.DEFAULT_AMOUNT : update.message?.text
+  )
+  const isDefaultAmount = amount <= config.DEFAULT_AMOUNT
+
   let valid = true
-  if (isNaN(amount) || amount < 0.1 || amount > config.OPERATION_LIMIT)
+  if (
+    isNaN(amount) ||
+    amount < 0.1 ||
+    (amount > config.OPERATION_LIMIT && isDefaultAmount)
+  )
     valid = false
+
+  if (update.callbackQuery) await update.answerCallbackQuery()
 
   return {
     amount,
@@ -26,8 +40,9 @@ export default async function checkAddress(
       ? null
       : isNaN(amount) || amount < 0.1
       ? 'invalid'
-      : amount > config.OPERATION_LIMIT
+      : amount > config.OPERATION_LIMIT && isDefaultAmount
       ? 'operationLimit'
-      : 'else'
+      : null,
+    default: isDefaultAmount
   }
 }

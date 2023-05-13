@@ -12,6 +12,7 @@ export interface SessionData {
   randomEmoji?: string
   address?: address
   amount?: amount
+  user?: IUser
 }
 
 type CustomContext = Default & I18nFlavor
@@ -19,9 +20,8 @@ type CustomContext = Default & I18nFlavor
 export type Context = ParseModeFlavor<
   HydrateFlavor<
     CustomContext &
-      ChatTypeContext<CustomContext, 'private'> & {
-        user: IUser
-      } & SessionFlavor<SessionData> &
+      ChatTypeContext<CustomContext, 'private'> &
+      SessionFlavor<SessionData> &
       ConversationFlavor
   >
 >

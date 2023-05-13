@@ -7,6 +7,10 @@ const operationSchema = new Schema(
       index: true,
       required: true
     },
+    userName: {
+      type: String,
+      required: true
+    },
     address: {
       type: String,
       required: true
@@ -14,7 +18,12 @@ const operationSchema = new Schema(
     amount: {
       type: Number,
       required: true
-    }
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'done', 'canceled']
+    },
+    comment: String
   },
   {
     timestamps: true

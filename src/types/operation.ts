@@ -7,6 +7,7 @@ export interface address {
   address: string | undefined
   valid: boolean
   attempts: number
+  reason: null | string
 }
 
 export interface amount {
@@ -14,4 +15,5 @@ export interface amount {
   valid: boolean
   attempts: number
   reason: null | string
+  default: Boolean
 }

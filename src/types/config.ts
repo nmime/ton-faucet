@@ -15,7 +15,8 @@ const configSchema = z.object({
   }, z.array(z.enum(updates))),
   ADMIN_CHAT: z.coerce.number(),
   DAY_LIMIT: z.coerce.number(),
-  OPERATION_LIMIT: z.coerce.number()
+  OPERATION_LIMIT: z.coerce.number(),
+  DEFAULT_AMOUNT: z.coerce.number()
 })
 
 export default configSchema.parse(process.env as NodeJS.ProcessEnv)

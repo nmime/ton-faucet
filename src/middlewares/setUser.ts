@@ -17,7 +17,11 @@ export const setUser = (): Middleware<Context> => async (ctx, next) => {
     languageCode: ctx.from.language_code
   })
 
-  ctx.user = user
+  ctx.session.user = user
+
+  ctx.i18n.useLocale(
+    ctx.session.user.lang || ctx.session.user.languageCode || 'en'
+  )
 
   await next()
 
