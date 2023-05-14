@@ -26,6 +26,9 @@ bot.use(sequentialize((ctx: Context) => ctx.chat?.id.toString()))
 bot.use(session({ initial: (): SessionData => ({}) }))
 bot.use(conversations())
 
+import { acceptMenu } from './actions/accept'
+bot.use(acceptMenu)
+
 const privateBot = bot.chatType('private')
 privateBot.use(setUser())
 
@@ -42,13 +45,11 @@ import cancel from './actions/cancel'
 privateBot.command('cancel', cancel)
 privateBot.callbackQuery('cancel', cancel)
 
-/*import accept from './actions/accept'
-privateBot.callbackQuery(/^accept_([^_]+)/, accept)*/
-
 import operation from './actions/operation'
 privateBot.use(createConversation(operation))
 
 privateBot.command('get', ctx => ctx.conversation.enter('operation'))
+privateBot.callbackQuery('get', ctx => ctx.conversation.enter('operation'))
 
 privateBot.on('message', ctx => start)
 

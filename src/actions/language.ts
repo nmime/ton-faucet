@@ -1,8 +1,8 @@
+import { Menu } from '@grammyjs/menu'
+
 import { Context } from '../types/context'
 import { i18n } from '../i18n'
 import start from './start'
-
-import { Menu } from '@grammyjs/menu'
 
 export default new Menu<Context>('language').dynamic((ctx, range) => {
   i18n.locales.map(localeCode => {

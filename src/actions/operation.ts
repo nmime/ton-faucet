@@ -12,10 +12,14 @@ import getLatestOperations from '../helpers/getLatestOperations'
 
 import { Operation } from '../database/operation'
 
+import { acceptMenu, accept, decline } from './accept'
+
 export default async function operation(
   conversation: Conversation<Context>,
   ctx: Context
 ) {
+  if (ctx.callbackQuery) await ctx.deleteMessage()
+
   let captcha: captcha = {
     result: false,
     attempts: 0
@@ -67,10 +71,13 @@ export default async function operation(
   } while (!conversation.session.amount.valid)
 
   let comment
-  if (!conversation.session.amount.default)
+  if (!conversation.session.amount.default) {
+    await ctx.reply(ctx.t(`provideComment`))
+
     comment = await conversation.waitFor(':text', ctx =>
       ctx.reply(ctx.t('onlyText'))
     )
+  }
 
   const lastOperations = await getLatestOperations(ctx.from.id)
   if (
@@ -85,10 +92,10 @@ export default async function operation(
     amount: conversation.session.amount.amount,
     userName: conversation.session.user?.name ?? '',
     comment: comment?.message.text,
-    status: 'pending'
+    status: conversation.session.amount.default ? 'pending' : 'needApprove'
   })
 
-  await ctx.reply(ctx.t('operation.queue'))
+  await ctx.reply(ctx.t('operation'))
 
   await ctx.api.sendMessage(
     config.ADMIN_CHAT,
@@ -96,17 +103,31 @@ export default async function operation(
       conversation.session.amount.default ? 'admin.notify' : 'admin.approve',
       {
         userName: operation.userName,
-        userId: operation.userId,
+        userId: operation.userId.toString(),
         address: operation.address,
         amount: operation.amount,
-        comment: comment?.message.text ?? ''
+        comment: operation.comment ?? ''
       }
     ),
     !conversation.session.amount.default
       ? {
-          reply_markup: new InlineKeyboard()
-            .text(ctx.t('admin.keyYes'), `accept_${operation._id}_yes`)
-            .text(ctx.t('admin.keyNo'), `accept_${operation._id}_no`)
+          reply_markup: acceptMenu.dynamic((ctx, range) => {
+            range
+              .text(
+                {
+                  text: ctx => ctx.t('admin.keyYes'),
+                  payload: operation.id
+                },
+                accept
+              )
+              .text(
+                {
+                  text: ctx => ctx.t('admin.keyNo'),
+                  payload: operation.id
+                },
+                decline
+              )
+          })
         }
       : {}
   )

@@ -21,7 +21,7 @@ const operationSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'done', 'canceled']
+      enum: ['needApprove', 'canceled', 'pending', 'done']
     },
     comment: String
   },

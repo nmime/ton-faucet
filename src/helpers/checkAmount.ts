@@ -11,7 +11,7 @@ export default async function checkAddress(
 ) {
   await ctx.reply(ctx.t(`provideAmount.${reason ?? ''}`), {
     reply_markup: new InlineKeyboard().text(
-      ctx.t('provideAmount.key'),
+      ctx.t('provideAmount.key', { amount: config.DEFAULT_AMOUNT }),
       'provideAmount'
     )
   })
