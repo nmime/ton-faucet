@@ -15,5 +15,5 @@ export interface amount {
   valid: boolean
   attempts: number
   reason: null | string
-  default: Boolean
+  default: boolean
 }

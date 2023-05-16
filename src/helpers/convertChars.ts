@@ -1,8 +1,10 @@
 export const convertChars = (str: string) => {
-  const chars = { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }
+  const chars = { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }
 
   return str.replace(/[<>&]/g, s => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return chars[s]
   })
 }

@@ -1,21 +1,21 @@
-import { InlineKeyboard } from 'grammy'
-import { type Conversation } from '@grammyjs/conversations'
+import { type Conversation } from "@grammyjs/conversations"
+import { InlineKeyboard } from "grammy"
 
-import { Context } from '../types/context'
+import { Context } from "~/types/context"
 
-const colors = ['🟥', '🟩', '🟦'] as const
+const colors = ["🟥", "🟩", "🟦"] as const
 
 export default async function captcha(
   conversation: Conversation<Context>,
   ctx: Context,
-  error: Boolean = false
+  error = false
 ) {
   conversation.session.randomEmoji =
     colors[Math.floor((await conversation.random()) * 3)]
 
   await ctx.reply(
-    ctx.t(`captcha.${error ? 'error' : ''}`, {
-      color: conversation.session.randomEmoji ?? ''
+    ctx.t(`captcha.${error ? "error" : ""}`, {
+      color: conversation.session.randomEmoji ?? ""
     }),
     {
       reply_markup: new InlineKeyboard()
@@ -26,20 +26,20 @@ export default async function captcha(
   )
 
   const { callbackQuery } = await conversation.waitForCallbackQuery(
-    new RegExp(`captcha`, ''),
+    new RegExp(`captcha`, ""),
     {
       otherwise: ctx =>
         ctx.callbackQuery?.editText &&
         ctx.callbackQuery.editText(
           ctx.t(`captcha.error`, {
-            color: conversation.session.randomEmoji ?? ''
+            color: conversation.session.randomEmoji ?? ""
           })
         )
     }
   )
 
   const passed =
-    callbackQuery.data.split('_')[1] === conversation.session.randomEmoji
+    callbackQuery.data.split("_")[1] === conversation.session.randomEmoji
 
   await ctx.api.answerCallbackQuery(callbackQuery.id)
 

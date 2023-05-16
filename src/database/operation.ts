@@ -1,4 +1,4 @@
-import { Schema, model, InferSchemaType } from 'mongoose'
+import { InferSchemaType, Schema, model } from "mongoose"
 
 const operationSchema = new Schema(
   {
@@ -21,7 +21,7 @@ const operationSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['needApprove', 'canceled', 'pending', 'done']
+      enum: ["needApprove", "canceled", "pending", "done"]
     },
     comment: String
   },
@@ -32,4 +32,4 @@ const operationSchema = new Schema(
 
 export type IOperation = InferSchemaType<typeof operationSchema>
 
-export const Operation = model('Operation', operationSchema)
+export const Operation = model("Operation", operationSchema)

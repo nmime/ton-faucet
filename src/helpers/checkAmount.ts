@@ -1,22 +1,22 @@
-import { InlineKeyboard } from 'grammy'
-import { type Conversation } from '@grammyjs/conversations'
+import { type Conversation } from "@grammyjs/conversations"
+import { InlineKeyboard } from "grammy"
 
-import { Context } from '../types/context'
-import config from '../types/config'
+import config from "~/types/config"
+import { Context } from "~/types/context"
 
 export default async function checkAddress(
   conversation: Conversation<Context>,
   ctx: Context,
   reason: null | string
 ) {
-  await ctx.reply(ctx.t(`provideAmount.${reason ?? ''}`), {
+  await ctx.reply(ctx.t(`provideAmount.${reason ?? ""}`), {
     reply_markup: new InlineKeyboard().text(
-      ctx.t('provideAmount.key', { amount: config.DEFAULT_AMOUNT }),
-      'provideAmount'
+      ctx.t("provideAmount.key", { amount: config.DEFAULT_AMOUNT }),
+      "provideAmount"
     )
   })
 
-  let update = await conversation.wait()
+  const update = await conversation.wait()
 
   const amount = Number(
     update.callbackQuery ? config.DEFAULT_AMOUNT : update.message?.text
@@ -39,9 +39,9 @@ export default async function checkAddress(
     reason: valid
       ? null
       : isNaN(amount) || amount < 0.1
-      ? 'invalid'
+      ? "invalid"
       : amount > config.OPERATION_LIMIT && isDefaultAmount
-      ? 'operationLimit'
+      ? "operationLimit"
       : null,
     default: isDefaultAmount
   }
