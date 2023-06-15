@@ -9,7 +9,7 @@ export default async function checkAddress(
   ctx: Context,
   reason: null | string
 ) {
-  await ctx.reply(ctx.t(`provideAmount.${reason ?? ""}`), {
+  const messsge = await ctx.reply(ctx.t(`provideAmount.${reason ?? ""}`), {
     reply_markup: new InlineKeyboard().text(
       ctx.t("provideAmount.key", { amount: config.DEFAULT_AMOUNT }),
       "provideAmount"
@@ -31,7 +31,7 @@ export default async function checkAddress(
   )
     valid = false
 
-  if (update.callbackQuery) await update.answerCallbackQuery()
+  await ctx.api.deleteMessage(ctx.from.id, messsge.message_id)
 
   return {
     amount,

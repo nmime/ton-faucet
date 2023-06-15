@@ -1,4 +1,4 @@
-name = Русский
+aname = Русский
 start = Приветствую вас в <b>Testgiver TON Bot!</b>
   .key = Получить Testnet TON
 language = Choose your language: 
@@ -21,20 +21,23 @@ operation = Ваша заявка добавлена в очередь на об
   .accepted = Ваша заявка на { $amount } TON одобрена и будет скоро проведена!
   .declined = Ваша заявка на { $amount } TON отклонена!
 admin =
-  .notify = ✅ { $userName } <code>{ $userId }</code> 
+  .notify = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON request
-  .approve = ⏰ { $userName } <code>{ $userId }</code> 
+  .approve = ⏰ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON
-    <i>{ $comment}</i> request needs approval
+    <i>{ $comment }</i> 
+    request needs approval
   .keyYes = ✅ Approve
   .keyNo = ❌ Decline
-  .approved = ✅ { $userName } <code>{ $userId }</code> 
+  .approved = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON
-    <i>{ $comment}</i> request approved
-  .declined = ❌ { $userName } <code>{ $userId }</code> 
+    <i>{ $comment }</i> 
+    request approved
+  .declined = ❌ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON 
-    <i>{ $comment}</i> request declined
+    <i>{ $comment }</i> 
+    request declined

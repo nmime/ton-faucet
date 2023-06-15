@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "faucetBot",
+      "script": "./dist/index.js"
+    }
+  ]
+}

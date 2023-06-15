@@ -20,21 +20,24 @@ onlyText = Text only!
 operation = Your request has been queued for processing!
   .accepted = Your request for { $amount } TON has been approved and will be processed soon!
   .declined = Your order for { $amount } TON has been declined!
-admin=
-  .notify = ✅ { $userName } <code>{ $userId }</code>
-    <code>{ $address }</code>
+admin =
+  .notify = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+    <code>{ $address }</code> 
     { $amount } TON request
-  .approve = ⏰ { $userName } <code>{ $userId }</code>
-    <code>{ $address }</code>
+  .approve = ⏰ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+    <code>{ $address }</code> 
     { $amount } TON
-    <i>{ $comment}</i> request needs approval
-  .keyYes = ✅Approve
+    <i>{ $comment }</i> 
+    request needs approval
+  .keyYes = ✅ Approve
   .keyNo = ❌ Decline
-  .approved = ✅ { $userName } <code>{ $userId }</code>
-    <code>{ $address }</code>
+  .approved = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+    <code>{ $address }</code> 
     { $amount } TON
-    <i>{ $comment}</i> request approved
-  .declined = ❌ { $userName } <code>{ $userId }</code>
-    <code>{ $address }</code>
-    { $amount } TON
-    <i>{ $comment}</i> request declined
+    <i>{ $comment }</i> 
+    request approved
+  .declined = ❌ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+    <code>{ $address }</code> 
+    { $amount } TON 
+    <i>{ $comment }</i> 
+    request declined

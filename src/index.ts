@@ -1,9 +1,7 @@
 import config from "./types/config"
 
 import { connect } from "mongoose"
-import processOperations from "./processOperations"
 await connect(config.MONGO_URI)
-await processOperations()
 
 import { conversations, createConversation } from "@grammyjs/conversations"
 import { hydrate } from "@grammyjs/hydrate"
@@ -56,3 +54,9 @@ privateBot.callbackQuery("get", ctx => ctx.conversation.enter("operation"))
 privateBot.on("message", start)
 
 run(bot, { runner: { fetch: { allowed_updates: config.BOT_ALLOWED_UPDATES } } })
+
+await bot.init()
+console.log(bot.botInfo, "successful started")
+
+import processOperations from "./processOperations"
+await processOperations()

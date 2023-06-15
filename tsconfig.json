@@ -4,8 +4,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "preserveWatchOutput": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
     "module": "ES2022",
     "target": "ES2022",
     "moduleResolution": "bundler",
