@@ -1,10 +1,10 @@
 import { Menu, MenuFlavor } from "@grammyjs/menu"
-import { i18n } from "~/i18n"
+import { i18n } from "../i18n"
 
-import { Context } from "~/types/context"
+import { Context } from "../types/context"
 
-import { Operation } from "~/database/operation"
-import { User } from "~/database/user"
+import { Operation } from "../database/operation"
+import { User } from "../database/user"
 
 export const acceptMenu = new Menu<Context>("accept")
 

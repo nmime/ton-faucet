@@ -11,14 +11,15 @@ const client = new TonClient({
   endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC",
   apiKey: config.TONCENTER_KEY
 })
-const keyPair = await mnemonicToPrivateKey(config.MNEMONIC)
-const wallet = WalletContractV4.create({
-  workchain: 0,
-  publicKey: keyPair.publicKey
-})
-const contract = client.open(wallet)
 
 export default async function processOperations() {
+  const keyPair = await mnemonicToPrivateKey(config.MNEMONIC)
+  const wallet = WalletContractV4.create({
+    workchain: 0,
+    publicKey: keyPair.publicKey
+  })
+  const contract = client.open(wallet)
+
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const operation = await Operation.findOne({ status: "pending" })

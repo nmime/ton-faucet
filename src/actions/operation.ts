@@ -1,15 +1,15 @@
 import { type Conversation } from "@grammyjs/conversations"
 
-import config from "~/types/config"
-import { Context } from "~/types/context"
-import { captcha } from "~/types/operation"
+import config from "..///types/config"
+import { Context } from "..///types/context"
+import { captcha } from "..///types/operation"
 
-import checkAddress from "~/helpers/checkAddress"
-import checkAmount from "~/helpers/checkAmount"
-import checkCaptcha from "~/helpers/checkCaptcha"
-import getLatestOperations from "~/helpers/getLatestOperations"
+import checkAddress from "..///helpers/checkAddress"
+import checkAmount from "..///helpers/checkAmount"
+import checkCaptcha from "..///helpers/checkCaptcha"
+import getLatestOperations from "..///helpers/getLatestOperations"
 
-import { Operation } from "~/database/operation"
+import { Operation } from "..///database/operation"
 
 import { accept, acceptMenu, decline } from "./accept"
 

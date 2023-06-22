@@ -1,7 +1,7 @@
 import { type Conversation } from "@grammyjs/conversations"
 import { Address } from "ton-core"
 
-import { Context } from "~/types/context"
+import { Context } from "..////types/context"
 
 export default async function checkAddress(
   conversation: Conversation<Context>,

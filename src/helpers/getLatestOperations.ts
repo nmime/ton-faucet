@@ -1,4 +1,4 @@
-import { Operation } from "~/database/operation"
+import { Operation } from "..//database/operation"
 
 export default async function getLatestOperations(id: number) {
   const lastOperations = await Operation.find({

@@ -1,7 +1,7 @@
 import { type Conversation } from "@grammyjs/conversations"
 import { InlineKeyboard } from "grammy"
 
-import { Context } from "~/types/context"
+import { Context } from "..//types/context"
 
 const colors = ["🟥", "🟩", "🟦"] as const
 

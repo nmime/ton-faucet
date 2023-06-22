@@ -1,7 +1,9 @@
 import config from "./types/config"
 
 import { connect } from "mongoose"
-await connect(config.MONGO_URI)
+connect(config.MONGO_URI)
+  .then(() => console.log("Mongo connected"))
+  .catch(err => console.error(err))
 
 import { conversations, createConversation } from "@grammyjs/conversations"
 import { hydrate } from "@grammyjs/hydrate"
@@ -53,10 +55,15 @@ privateBot.callbackQuery("get", ctx => ctx.conversation.enter("operation"))
 
 privateBot.on("message", start)
 
-run(bot, { runner: { fetch: { allowed_updates: config.BOT_ALLOWED_UPDATES } } })
-
-await bot.init()
-console.log(bot.botInfo, "successful started")
+run(bot, {
+  runner: { fetch: { allowed_updates: config.BOT_ALLOWED_UPDATES } }
+})
 
 import processOperations from "./processOperations"
-await processOperations()
+
+void (async () => {
+  await bot.init()
+  console.log(bot.botInfo, "successful started")
+
+  await processOperations()
+})()

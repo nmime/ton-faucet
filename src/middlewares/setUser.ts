@@ -1,8 +1,8 @@
 import { Middleware } from "grammy"
 
-import { User } from "~/database/user"
-import { convertChars } from "~/helpers/convertChars"
-import { Context } from "~/types/context"
+import { User } from "..//database/user"
+import { convertChars } from "..//helpers/convertChars"
+import { Context } from "..//types/context"
 
 export const setUser = (): Middleware<Context> => async (ctx, next) => {
   let user = await User.findOne({ id: ctx.from.id })

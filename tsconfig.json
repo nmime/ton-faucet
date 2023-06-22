@@ -4,15 +4,12 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "preserveWatchOutput": true,
-    "module": "ES2022",
+    "module": "CommonJS",
     "target": "ES2022",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "src",
-    "paths": {
-      "~/*": ["*"]
-    }
+    "baseUrl": "src"
   },
   "include": ["src/**/*"]
 }

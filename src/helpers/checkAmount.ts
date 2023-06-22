@@ -1,8 +1,8 @@
 import { type Conversation } from "@grammyjs/conversations"
 import { InlineKeyboard } from "grammy"
 
-import config from "~/types/config"
-import { Context } from "~/types/context"
+import config from "..//types/config"
+import { Context } from "..//types/context"
 
 export default async function checkAddress(
   conversation: Conversation<Context>,
