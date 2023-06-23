@@ -1,25 +1,42 @@
 import { type Conversation } from "@grammyjs/conversations"
 import { InlineKeyboard } from "grammy"
 
-import config from "..//types/config"
-import { Context } from "..//types/context"
+import config from "../types/config"
+import { Context } from "../types/context"
 
 export default async function checkAddress(
   conversation: Conversation<Context>,
   ctx: Context,
   reason: null | string
 ) {
-  const messsge = await ctx.reply(ctx.t(`provideAmount.${reason ?? ""}`), {
-    reply_markup: new InlineKeyboard().text(
-      ctx.t("provideAmount.key", { amount: config.DEFAULT_AMOUNT }),
-      "provideAmount"
-    )
-  })
+  const messsge = await ctx.reply(
+    ctx.t(`provideAmount.${reason ?? ""}`, { amount: config.DEFAULT_AMOUNT }),
+    {
+      reply_markup: new InlineKeyboard()
+        .text(
+          ctx.t("provideAmount.keyDefault", { amount: config.DEFAULT_AMOUNT }),
+          "provideAmount_default"
+        )
+        .row()
+        .text(ctx.t("provideAmount.keyEnter"), "provideAmount_enter")
+    }
+  )
 
-  const update = await conversation.wait()
+  let update = await conversation.wait()
+
+  if (update.callbackQuery?.data === "provideAmount_enter") {
+    await ctx.api.editMessageText(
+      ctx.from.id,
+      messsge.message_id,
+      ctx.t("provideAmount.enterAmount")
+    )
+    update = await conversation.waitFor(":text")
+  }
 
   const amount = Number(
-    update.callbackQuery ? config.DEFAULT_AMOUNT : update.message?.text
+    update.callbackQuery?.data === "provideAmount_default"
+      ? config.DEFAULT_AMOUNT
+      : update.message?.text
   )
   const isDefaultAmount = amount <= config.DEFAULT_AMOUNT
 

@@ -1,42 +1,53 @@
-aname = Русский
-start = Приветствую вас в <b>Testgiver TON Bot!</b>
-  .key = Получить Testnet TON
-language = Choose your language: 
-  Выберите свой язык:
-  .changed = Ваш язык изменен.
-captcha = Выбери этот цвет { $color }:
-  .error = Вы выбрали неверный цвет
-    Выбери цвет заново { $color }:
-provideAddress = Введите testnet TON адрес.
-  .invalid = Неверный адрес!
-    Введите корректный testnet TON адрес.
-provideAmount = Введите кол-во тестовых TON необходимых для получени.
-  .invalid = Введите корректное число тестовых TON.
-  .operationLimit = Превышен лимит по операциям, попробуйте позже.
-  .key = Получить { $amount } TON
-provideComment = Введите комментарий для одобрения вашей заявки.
-dailyLimit = Превышен дневной лимит по операциям, попробуйте завтра.
-onlyText = Только текст!
+name = Русский
+start = Добро пожаловать в <b>Testgiver TON Bot!</b>
+    Этот бот функционирует в тестовой сети <a href='https://docs.ton.org/develop/smart-contracts/environment/testnet'>ton.org TESTNET</a>!
+
+    С его помощью вы сможете получить тестовые монеты TON для испытания и разработки в среде TON.
+  .notFirstTime = Добро пожаловать обратно в <b>Testgiver TON Bot!</b>
+    Напоминаем, что этот бот функционирует в тестовой сети <a href='https://docs.ton.org/develop/smart-contracts/environment/testnet'>ton.org TESTNET</a>!
+
+    Вы можете продолжить использовать его для получения тестовых монет TON для испытания и разработки в среде TON.
+  .key = Получить тестовые TON
+language = Select the language for interaction:
+  Выберите язык для взаимодействия:
+  .changed = Ваш язык интерфейса был успешно изменен.
+captcha = Пожалуйста, выберите цвет { $color }:
+  .error = К сожалению, вы выбрали неправильный цвет.
+    Пожалуйста, попробуйте снова и выберите цвет { $color }:
+provideAddress = Пожалуйста, введите адрес в тестовой сети TON.
+  .invalid =  Введенный адрес является некорректным!
+    Пожалуйста, введите действительный адрес в тестовой сети TON.
+  .balance = Ваш баланс TON достаточен.
+provideAmount = Вы можете получить { $amount } TON немедленно или ввести желаемое количество TON.
+  .invalid = Введите действительное количество тестовых TON.
+  .operationLimit = Лимит операций превышен, попробуйте позже.
+  .keyDefault = Получить { $amount } TON
+  .keyEnter = Ввести желаемое кол-во TON
+  .enterAmount = Пожалуйста, введите количество тестовых TON, которые вы хотели бы получить.
+provideComment = Пожалуйста, введите комментарий, чтобы подтвердить вашу заявку.
+dailyLimit = Дневной лимит операций превышен, пожалуйста, попробуйте снова завтра.
+onlyText = Пожалуйста, вводите только текст!
 operation = Ваша заявка добавлена в очередь на обработку!
-  .accepted = Ваша заявка на { $amount } TON одобрена и будет скоро проведена!
+  .accepted = Ваша заявка на { $amount } TON была одобрена и будет исполнена в ближайшее время!
   .declined = Ваша заявка на { $amount } TON отклонена!
+  .executed = Ваша заявка на { $amount } TON выполнена!
 admin =
-  .notify = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+  .notify = ✅ { $userLink } <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON request
-  .approve = ⏰ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+  .approve = ⏰ { $userLink } <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON
     <i>{ $comment }</i> 
     request needs approval
   .keyYes = ✅ Approve
   .keyNo = ❌ Decline
-  .approved = ✅ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+  .approved = ✅ { $userLink } <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON
     <i>{ $comment }</i> 
     request approved
-  .declined = ❌ <a href='tg://user?id={ $userId }'>{ $userName }</a> <code>{ $userId }</code> 
+  .declined = ❌ { $userLink } <code>{ $userId }</code> 
     <code>{ $address }</code> 
     { $amount } TON 
     <i>{ $comment }</i> 

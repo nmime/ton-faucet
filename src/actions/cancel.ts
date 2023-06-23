@@ -1,4 +1,4 @@
-import { Context } from "..//types/context"
+import { Context } from "../types/context"
 
 export default async function cancel(ctx: Context) {
   const conversations = await ctx.conversation.active()

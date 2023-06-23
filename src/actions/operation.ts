@@ -1,15 +1,15 @@
 import { type Conversation } from "@grammyjs/conversations"
 
-import config from "..///types/config"
-import { Context } from "..///types/context"
-import { captcha } from "..///types/operation"
+import config from "../types/config"
+import { Context } from "../types/context"
+import { captcha } from "../types/operation"
 
-import checkAddress from "..///helpers/checkAddress"
-import checkAmount from "..///helpers/checkAmount"
-import checkCaptcha from "..///helpers/checkCaptcha"
-import getLatestOperations from "..///helpers/getLatestOperations"
+import checkAddress from "../helpers/checkAddress"
+import checkAmount from "../helpers/checkAmount"
+import checkCaptcha from "../helpers/checkCaptcha"
+import getLatestOperations from "../helpers/getLatestOperations"
 
-import { Operation } from "..///database/operation"
+import { Operation } from "../database/operation"
 
 import { accept, acceptMenu, decline } from "./accept"
 
@@ -44,6 +44,12 @@ export default async function operation(
       conversation.session.address,
       check
     )
+
+    if (conversation.session.address.reason === "balance") {
+      await ctx.reply(ctx.t(`provideAddress.balance`))
+
+      return
+    }
 
     conversation.session.address.attempts += 1
   } while (!conversation.session.address.valid)
@@ -101,7 +107,7 @@ export default async function operation(
     ctx.t(
       conversation.session.amount.default ? "admin.notify" : "admin.approve",
       {
-        userName: operation.userName,
+        userLink: `<a href='tg://user?id=${operation.userId}'>${operation.userName}</a>`,
         userId: operation.userId.toString(),
         address: operation.address,
         amount: operation.amount,

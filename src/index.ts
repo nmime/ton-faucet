@@ -10,6 +10,7 @@ import { hydrate } from "@grammyjs/hydrate"
 import { hydrateReply, parseMode } from "@grammyjs/parse-mode"
 import { run, sequentialize } from "@grammyjs/runner"
 import { Bot, session } from "grammy"
+import { generateUpdateMiddleware } from "telegraf-middleware-console-time"
 
 import { setUser } from "./middlewares/setUser"
 import { Context, SessionData } from "./types/context"
@@ -18,9 +19,11 @@ const bot = new Bot<Context>(config.BOT_TOKEN)
 
 bot.catch(err => console.error(err))
 
+import { acceptMenu } from "./actions/accept"
 import { i18n } from "./i18n"
 bot.use(i18n)
 
+if (config.NODE_ENV === "development") bot.use(generateUpdateMiddleware())
 bot.use(hydrateReply)
 bot.use(hydrate())
 bot.api.config.use(parseMode("HTML"))
@@ -28,7 +31,6 @@ bot.use(sequentialize((ctx: Context) => ctx.chat?.id.toString()))
 bot.use(session({ initial: (): SessionData => ({}) }))
 bot.use(conversations())
 
-import { acceptMenu } from "./actions/accept"
 bot.use(acceptMenu)
 
 const privateBot = bot.chatType("private")
@@ -65,5 +67,5 @@ void (async () => {
   await bot.init()
   console.log(bot.botInfo, "successful started")
 
-  await processOperations()
+  await processOperations(bot)
 })()

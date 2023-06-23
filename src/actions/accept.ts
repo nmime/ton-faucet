@@ -20,7 +20,7 @@ export const accept = async (ctx: Context & MenuFlavor) => {
 
   await ctx.editMessageText(
     ctx.t("admin.approved", {
-      userName: operation.userName,
+      userLink: `<a href='tg://user?id=${operation.userId}'>${operation.userName}</a>`,
       userId: operation.userId.toString(),
       address: operation.address,
       amount: operation.amount,
@@ -49,7 +49,7 @@ export const decline = async (ctx: Context & MenuFlavor) => {
 
   await ctx.editMessageText(
     ctx.t("admin.declined", {
-      userName: operation.userName,
+      userLink: `<a href='tg://user?id=${operation.userId}'>${operation.userName}</a>`,
       userId: operation.userId.toString(),
       address: operation.address,
       amount: operation.amount,
