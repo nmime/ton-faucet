@@ -12,7 +12,6 @@ import { run, sequentialize } from "@grammyjs/runner"
 import { Bot, session } from "grammy"
 import { generateUpdateMiddleware } from "telegraf-middleware-console-time"
 
-import { setUser } from "./middlewares/setUser"
 import { Context, SessionData } from "./types/context"
 
 const bot = new Bot<Context>(config.BOT_TOKEN)
@@ -34,14 +33,20 @@ bot.use(conversations())
 bot.use(acceptMenu)
 
 const privateBot = bot.chatType("private")
+
+import setUser from "./middlewares/setUser"
 privateBot.use(setUser())
+
+import language from "./actions/language"
+privateBot.use(language)
+
+import setLang from "./middlewares/setLang"
+privateBot.use(setLang())
 
 import start from "./actions/start"
 privateBot.command("start", start)
 
-import language from "./actions/language"
-privateBot.use(language)
-privateBot.command("language", ctx =>
+privateBot.command(["language", "lang"], ctx =>
   ctx.reply(ctx.t("language"), { reply_markup: language })
 )
 

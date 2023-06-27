@@ -20,8 +20,8 @@ export default async function operation(
   if (ctx.callbackQuery) await ctx.deleteMessage()
 
   const captcha: captcha = {
-    result: false,
-    attempts: 0
+    attempts: 0,
+    result: false
   }
   do {
     captcha.result = await checkCaptcha(conversation, ctx, captcha.attempts > 0)
@@ -30,9 +30,9 @@ export default async function operation(
 
   conversation.session.address = {
     address: undefined,
-    valid: false,
     attempts: 0,
-    reason: null
+    reason: null,
+    valid: false
   }
   do {
     const check = await checkAddress(
@@ -48,7 +48,7 @@ export default async function operation(
     if (conversation.session.address.reason === "balance") {
       await ctx.reply(ctx.t(`provideAddress.balance`))
 
-      return
+      break
     }
 
     conversation.session.address.attempts += 1
@@ -56,10 +56,10 @@ export default async function operation(
 
   conversation.session.amount = {
     amount: 1,
-    valid: false,
     attempts: 0,
+    default: conversation.session.address.reason === "balance",
     reason: null,
-    default: false
+    valid: false
   }
   do {
     const check = await checkAmount(
@@ -92,12 +92,12 @@ export default async function operation(
     return ctx.reply(ctx.t("dailyLimit"))
 
   const operation = new Operation({
-    userId: ctx.from.id,
     address: conversation.session.address.address,
     amount: conversation.session.amount.amount,
-    userName: conversation.session.user?.name ?? "",
     comment: comment?.message.text,
-    status: conversation.session.amount.default ? "pending" : "needApprove"
+    status: conversation.session.amount.default ? "pending" : "needApprove",
+    userId: ctx.from.id,
+    userName: conversation.session.user?.name ?? ""
   })
 
   await ctx.reply(ctx.t("operation"))
@@ -107,11 +107,11 @@ export default async function operation(
     ctx.t(
       conversation.session.amount.default ? "admin.notify" : "admin.approve",
       {
-        userLink: `<a href='tg://user?id=${operation.userId}'>${operation.userName}</a>`,
-        userId: operation.userId.toString(),
         address: operation.address,
         amount: operation.amount,
-        comment: operation.comment ?? ""
+        comment: operation.comment ?? "",
+        userId: operation.userId.toString(),
+        userLink: `<a href='tg://user?id=${operation.userId}'>${operation.userName}</a>`
       }
     ),
     !conversation.session.amount.default
@@ -120,15 +120,15 @@ export default async function operation(
             range
               .text(
                 {
-                  text: ctx => ctx.t("admin.keyYes"),
-                  payload: operation._id.toString()
+                  payload: operation._id.toString(),
+                  text: ctx => ctx.t("admin.keyYes")
                 },
                 accept
               )
               .text(
                 {
-                  text: ctx => ctx.t("admin.keyNo"),
-                  payload: operation._id.toString()
+                  payload: operation._id.toString(),
+                  text: ctx => ctx.t("admin.keyNo")
                 },
                 decline
               )

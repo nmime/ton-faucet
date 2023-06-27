@@ -3,17 +3,24 @@ start =  Welcome to <b>Testgiver TON Bot!</b>
   This bot operates in the test network <a href='https://docs.ton.org/develop/smart-contracts/environment/testnet'>ton.org TESTNET</a>!
   
   You can use it to get test TON coins for testing and development in the TON environment.
+  
+  /lang - change language
   .notFirstTime = Welcome back to <b>Testgiver TON Bot!</b>
     Remember, this bot operates in the test network <a href='https://docs.ton.org/develop/smart-contracts/environment/testnet'>ton.org TESTNET</a>!
   
     You can use it to get test TON coins for testing and development in the TON environment.
+  
+    /lang - change language
   .key = Get test TON
 language = Select the language for interaction:
   Выберите язык для взаимодействия:
   .changed = Your interface language has been successfully changed.
-captcha = Please select the color { $color }:
+captcha = Please select the { $color } color.
   .error = Unfortunately, you've selected the wrong color.
-    Please try again and select the color { $color }:
+    Please try again and select the { $color } color.
+  .red = red
+  .green = green
+  .blue = blue
 provideAddress = Please enter your address in the TON test network.
   .invalid = The address you entered is invalid!
     Please enter a valid address in the TON test network.

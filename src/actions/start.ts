@@ -7,12 +7,12 @@ export default async function start(ctx: Context) {
   await ctx.conversation.exit()
 
   const operation = await Operation.findOne({
-    userId: ctx.from.id,
-    status: "done"
+    status: "done",
+    userId: ctx.from.id
   })
 
   return ctx.reply(ctx.t(`start.${operation ? "notFirstTime" : ""}`), {
-    reply_markup: new InlineKeyboard().text(ctx.t("start.key"), "get"),
-    disable_web_page_preview: true
+    disable_web_page_preview: true,
+    reply_markup: new InlineKeyboard().text(ctx.t("start.key"), "get")
   })
 }

@@ -6,8 +6,8 @@ import config from "../types/config"
 import { Context } from "../types/context"
 
 const client = new TonClient({
-  endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC",
-  apiKey: config.TONCENTER_KEY
+  apiKey: config.TONCENTER_KEY,
+  endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC"
 })
 
 export default async function checkAddress(
@@ -29,21 +29,23 @@ export default async function checkAddress(
     console.error(error)
     valid = false
     reason = "invalid"
+
+    return { reason, valid }
   }
 
   let balance
   try {
-    if (!address) return new Error("no adress")
+    if (!address) throw new Error("no adress")
 
     balance = fromNano(await client.getBalance(address))
 
     if (Number(balance) > config.SUFFICIENT_BALANCE)
-      return new Error("SUFFICIENT_BALANCE")
+      throw new Error("SUFFICIENT_BALANCE")
   } catch (error) {
     console.error(error)
     valid = false
     reason = "balance"
   }
 
-  return { address: address?.toString(), valid, reason }
+  return { address: address?.toString(), reason, valid }
 }

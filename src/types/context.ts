@@ -8,8 +8,10 @@ import { IUser } from "../database/user"
 
 import { address, amount } from "../types/operation"
 
+export type Color = "red" | "green" | "blue"
+
 export interface SessionData {
-  randomEmoji?: string
+  randomEmoji?: Color
   address?: address
   amount?: amount
   user?: IUser

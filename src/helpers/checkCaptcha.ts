@@ -1,27 +1,38 @@
 import { type Conversation } from "@grammyjs/conversations"
 import { InlineKeyboard } from "grammy"
 
-import { Context } from "../types/context"
+import { Color, Context } from "../types/context"
 
-const colors = ["🟥", "🟩", "🟦"] as const
+const shuffleArray = (array: Array<string>) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[randomIndex]] = [array[randomIndex], array[i]]
+  }
+  return array
+}
+
+const colors: Record<Color, string> = { blue: "🟦", green: "🟩", red: "🟥" }
 
 export default async function captcha(
   conversation: Conversation<Context>,
   ctx: Context,
   error = false
 ) {
-  conversation.session.randomEmoji =
-    colors[Math.floor((await conversation.random()) * 3)]
+  conversation.session.randomEmoji = Object.keys(colors)[
+    Math.floor((await conversation.random()) * 3)
+  ] as Color
+
+  const colorSquares = shuffleArray(Object.values(colors))
 
   await ctx.reply(
     ctx.t(`captcha.${error ? "error" : ""}`, {
-      color: conversation.session.randomEmoji ?? ""
+      color: ctx.t(`captcha.${conversation.session.randomEmoji}`)
     }),
     {
       reply_markup: new InlineKeyboard()
-        .text(colors[0], `captcha_${colors[0]}`)
-        .text(colors[1], `captcha_${colors[1]}`)
-        .text(colors[2], `captcha_${colors[2]}`)
+        .text(colorSquares[0], `captcha_${colorSquares[0]}`)
+        .text(colorSquares[1], `captcha_${colorSquares[1]}`)
+        .text(colorSquares[2], `captcha_${colorSquares[2]}`)
     }
   )
 
@@ -39,7 +50,8 @@ export default async function captcha(
   )
 
   const passed =
-    callbackQuery.data.split("_")[1] === conversation.session.randomEmoji
+    callbackQuery.data.split("_")[1] ===
+    colors[conversation.session.randomEmoji]
 
   await ctx.api.answerCallbackQuery(callbackQuery.id)
 

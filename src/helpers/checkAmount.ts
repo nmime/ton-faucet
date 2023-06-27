@@ -10,15 +10,29 @@ export default async function checkAddress(
   reason: null | string
 ) {
   const messsge = await ctx.reply(
-    ctx.t(`provideAmount.${reason ?? ""}`, { amount: config.DEFAULT_AMOUNT }),
+    ctx.t(
+      `provideAmount.${
+        reason
+          ? reason
+          : conversation.session.amount?.default
+          ? "enterAmount"
+          : ""
+      }`,
+      { amount: config.DEFAULT_AMOUNT }
+    ),
     {
-      reply_markup: new InlineKeyboard()
-        .text(
-          ctx.t("provideAmount.keyDefault", { amount: config.DEFAULT_AMOUNT }),
-          "provideAmount_default"
-        )
-        .row()
-        .text(ctx.t("provideAmount.keyEnter"), "provideAmount_enter")
+      reply_markup:
+        !conversation.session.amount?.default && !reason
+          ? new InlineKeyboard()
+              .text(
+                ctx.t("provideAmount.keyDefault", {
+                  amount: config.DEFAULT_AMOUNT
+                }),
+                "provideAmount_default"
+              )
+              .row()
+              .text(ctx.t("provideAmount.keyEnter"), "provideAmount_enter")
+          : undefined
     }
   )
 
@@ -52,7 +66,7 @@ export default async function checkAddress(
 
   return {
     amount,
-    valid,
+    default: isDefaultAmount,
     reason: valid
       ? null
       : isNaN(amount) || amount < 0.1
@@ -60,6 +74,6 @@ export default async function checkAddress(
       : amount > config.OPERATION_LIMIT && isDefaultAmount
       ? "operationLimit"
       : null,
-    default: isDefaultAmount
+    valid
   }
 }
