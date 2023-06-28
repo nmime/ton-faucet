@@ -1,4 +1,5 @@
-import { Menu, MenuFlavor } from "@grammyjs/menu"
+import { InlineKeyboard } from "grammy"
+
 import { i18n } from "../i18n"
 
 import { Context } from "../types/context"
@@ -6,16 +7,20 @@ import { Context } from "../types/context"
 import { Operation } from "../database/operation"
 import { User } from "../database/user"
 
-export const acceptMenu = new Menu<Context>("accept")
+export const acceptMenu = (id: string, ctx: Context) =>
+  new InlineKeyboard()
+    .text(ctx.t("admin.keyYes"), `accept_${id}`)
+    .text(ctx.t("admin.keyNo"), `decline_${id}`)
 
-export const accept = async (ctx: Context & MenuFlavor) => {
-  ctx.menu.close()
-
-  const operation = await Operation.findByIdAndUpdate(
-    ctx.match,
-    { status: "pending" },
-    { new: true }
-  )
+export const accept = async (ctx: Context) => {
+  const operation =
+    ctx.match && ctx.match[1]
+      ? await Operation.findByIdAndUpdate(
+          ctx.match[1],
+          { status: "pending" },
+          { new: true }
+        )
+      : undefined
   if (!operation) return
 
   await ctx.editMessageText(
@@ -37,14 +42,15 @@ export const accept = async (ctx: Context & MenuFlavor) => {
   )
 }
 
-export const decline = async (ctx: Context & MenuFlavor) => {
-  ctx.menu.close()
-
-  const operation = await Operation.findByIdAndUpdate(
-    ctx.match,
-    { status: "pending" },
-    { new: true }
-  )
+export const decline = async (ctx: Context) => {
+  const operation =
+    ctx.match && ctx.match[1]
+      ? await Operation.findByIdAndUpdate(
+          ctx.match[1],
+          { status: "pending" },
+          { new: true }
+        )
+      : undefined
   if (!operation) return
 
   await ctx.editMessageText(

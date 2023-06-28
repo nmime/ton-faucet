@@ -18,7 +18,6 @@ const bot = new Bot<Context>(config.BOT_TOKEN)
 
 bot.catch(err => console.error(err))
 
-import { acceptMenu } from "./actions/accept"
 import { i18n } from "./i18n"
 bot.use(i18n)
 
@@ -30,7 +29,9 @@ bot.use(sequentialize((ctx: Context) => ctx.chat?.id.toString()))
 bot.use(session({ initial: (): SessionData => ({}) }))
 bot.use(conversations())
 
-bot.use(acceptMenu)
+import { accept, decline } from "./actions/accept"
+bot.callbackQuery(/accept_(\w+)/, accept)
+bot.callbackQuery(/decline_(\w+)/, decline)
 
 const privateBot = bot.chatType("private")
 

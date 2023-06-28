@@ -11,7 +11,7 @@ import getLatestOperations from "../helpers/getLatestOperations"
 
 import { Operation } from "../database/operation"
 
-import { accept, acceptMenu, decline } from "./accept"
+import { acceptMenu } from "./accept"
 
 export default async function operation(
   conversation: Conversation<Context>,
@@ -116,23 +116,7 @@ export default async function operation(
     ),
     !conversation.session.amount.default
       ? {
-          reply_markup: acceptMenu.dynamic((ctx, range) => {
-            range
-              .text(
-                {
-                  payload: operation._id.toString(),
-                  text: ctx => ctx.t("admin.keyYes")
-                },
-                accept
-              )
-              .text(
-                {
-                  payload: operation._id.toString(),
-                  text: ctx => ctx.t("admin.keyNo")
-                },
-                decline
-              )
-          })
+          reply_markup: acceptMenu(operation._id.toString(), ctx)
         }
       : {}
   )
