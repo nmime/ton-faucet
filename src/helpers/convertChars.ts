@@ -1,5 +1,5 @@
 export const convertChars = (str: string) => {
-  const chars = { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }
+  const chars = { '"': "&quot;", "&": "&amp;", "<": "&lt;", ">": "&gt;" }
 
   return str.replace(/[<>&]/g, s => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

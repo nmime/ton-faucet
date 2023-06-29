@@ -38,15 +38,13 @@ const privateBot = bot.chatType("private")
 import setUser from "./middlewares/setUser"
 privateBot.use(setUser())
 
-import language from "./actions/language"
-privateBot.use(language)
-
 import setLang from "./middlewares/setLang"
 privateBot.use(setLang())
 
 import start from "./actions/start"
 privateBot.command("start", start)
 
+import language from "./actions/language"
 privateBot.command(["language", "lang"], ctx =>
   ctx.reply(ctx.t("language"), { reply_markup: language })
 )

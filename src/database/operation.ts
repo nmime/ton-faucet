@@ -2,28 +2,28 @@ import { InferSchemaType, Schema, model } from "mongoose"
 
 const operationSchema = new Schema(
   {
-    userId: {
-      type: Number,
-      index: true,
-      required: true
-    },
-    userName: {
-      type: String,
-      required: true
-    },
     address: {
-      type: String,
-      required: true
+      required: true,
+      type: String
     },
     amount: {
-      type: Number,
-      required: true
+      required: true,
+      type: Number
     },
+    comment: String,
     status: {
-      type: String,
-      enum: ["needApprove", "canceled", "pending", "done"]
+      enum: ["needApprove", "canceled", "pending", "done"],
+      type: String
     },
-    comment: String
+    userId: {
+      index: true,
+      required: true,
+      type: Number
+    },
+    userName: {
+      required: true,
+      type: String
+    }
   },
   {
     timestamps: true

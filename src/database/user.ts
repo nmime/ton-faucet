@@ -2,11 +2,11 @@ import { InferSchemaType, Schema, model } from "mongoose"
 
 const userSchema = new Schema(
   {
-    id: { type: Number, required: true },
-    name: String,
-    username: String,
+    id: { required: true, type: Number },
+    lang: String,
     languageCode: String,
-    lang: String
+    name: String,
+    username: String
   },
   {
     timestamps: true

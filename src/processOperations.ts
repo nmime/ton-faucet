@@ -14,8 +14,8 @@ const sleep = (millis: number) =>
   new Promise(resolve => setTimeout(resolve, millis))
 
 const client = new TonClient({
-  endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC",
-  apiKey: config.TONCENTER_KEY
+  apiKey: config.TONCENTER_KEY,
+  endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC"
 })
 
 export default async function processOperations(
@@ -23,8 +23,8 @@ export default async function processOperations(
 ) {
   const keyPair = await mnemonicToPrivateKey(config.MNEMONIC)
   const wallet = WalletContractV4.create({
-    workchain: 0,
-    publicKey: keyPair.publicKey
+    publicKey: keyPair.publicKey,
+    workchain: 0
   })
   const contract = client.open(wallet)
 
@@ -44,15 +44,15 @@ export default async function processOperations(
       try {
         const seqno: number = await contract.getSeqno()
         await contract.sendTransfer({
-          seqno,
-          secretKey: keyPair.secretKey,
           messages: [
             internal({
-              value: operation.amount.toString(),
-              to: operation.address
+              to: operation.address,
+              value: operation.amount.toString()
             })
           ],
-          sendMode: SendMode.IGNORE_ERRORS
+          secretKey: keyPair.secretKey,
+          sendMode: SendMode.IGNORE_ERRORS,
+          seqno
         })
 
         let currentSeqno = seqno
