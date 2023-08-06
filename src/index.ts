@@ -45,6 +45,7 @@ import start from "./actions/start"
 privateBot.command("start", start)
 
 import language from "./actions/language"
+privateBot.use(language)
 privateBot.command(["language", "lang"], ctx =>
   ctx.reply(ctx.t("language"), { reply_markup: language })
 )
